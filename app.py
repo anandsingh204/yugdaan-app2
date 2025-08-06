@@ -88,7 +88,7 @@ st.markdown(f"**Harvest / कटाई:** {guide['harvest']}")
 
 # Text-to-speech button
 if st.button("Listen to Crop Guide / सुनें"):
-    text_content = "
+    text_content = """
 ".join([
         guide["title"],
         guide["description"],
