@@ -6,7 +6,6 @@ import requests
 
 # --- Sample Crop Guides (All crops combined) ---
 crop_guides = {
-    # Wheat, Rice, Potato plus Luxury Crops examples
     "wheat": {
         "en": {
             "title": "Wheat Crop Guide",
@@ -81,13 +80,9 @@ crop_guides = {
     },
 }
 
-# Simple user database (in-memory)
 users = {}
 
-# For farm activity log per user (in-memory)
 farm_activities = {}
-
-# --- Helper Functions ---
 
 def text_to_speech(text, lang='en'):
     tts = gTTS(text=text, lang=lang)
@@ -96,13 +91,10 @@ def text_to_speech(text, lang='en'):
     mp3_fp.seek(0)
     return mp3_fp
 
-# --- Streamlit UI ---
-
 st.set_page_config(page_title="Yugdaan MVP Farm App", page_icon="🌾")
 
 st.title("🌾 Yugdaan MVP Farm Assistant")
 
-# User onboarding
 if "user" not in st.session_state:
     st.header("Welcome! Please Register")
     name = st.text_input("Your Name")
@@ -113,6 +105,7 @@ if "user" not in st.session_state:
             st.session_state.user = {"name": name, "location": location, "land_size": land_size}
             farm_activities[name] = []
             st.success(f"Welcome {name}! You are now registered.")
+            st.experimental_rerun()
         else:
             st.error("Please fill all fields.")
 
@@ -120,7 +113,6 @@ else:
     user = st.session_state.user
     st.sidebar.header(f"Hello, {user['name']}")
 
-    # Navigation
     menu = st.sidebar.selectbox("Menu", [
         "Crop Guide", "Farm Activity Log", "Photo Upload", "Weather Info", "Marketplace", "Contact Expert"
     ])
@@ -174,7 +166,6 @@ else:
         st.header("Weather Information")
         location = user["location"]
         st.write(f"Showing weather for {location} (Static demo)")
-        # For demo, static weather info
         st.write("Temperature: 32 °C")
         st.write("Humidity: 60%")
         st.write("Wind Speed: 10 km/h")
@@ -201,4 +192,3 @@ else:
                 st.success("Your question has been sent! Our expert will reply soon.")
             else:
                 st.error("Please enter your question.")
-
